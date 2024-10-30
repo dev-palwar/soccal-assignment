@@ -1,15 +1,7 @@
-interface BaseContent {
+export interface BaseContent {
   id: string;
-  genre: string;
   poster_path: string;
-}
-
-export interface Movie extends BaseContent {
+  genre_ids: number[];
   title: string;
+  name?: string;
 }
-
-export interface Tv extends BaseContent {
-  name: string;
-}
-
-// export type Content = (Movie | Tv) & { title?: string; name?: string };

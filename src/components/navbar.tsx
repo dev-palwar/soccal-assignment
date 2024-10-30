@@ -1,8 +1,6 @@
 "use client";
 
 import { Search, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -31,7 +29,7 @@ export default function Navbar() {
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="flex items-center justify-between px-4 py-2">
+      <nav className="flex items-center justify-between px-32 py-2">
         <div className="flex items-center">
           <Image src={bookMyShow} alt="Book my show" height={100} width={100} />
         </div>
@@ -39,7 +37,7 @@ export default function Navbar() {
         <div className="flex-1 max-w-md mx-4">
           <div className="relative">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
+            <input
               className="pl-8"
               placeholder="Search..."
               value={searchTerm}
@@ -62,25 +60,27 @@ export default function Navbar() {
             </SelectContent>
           </Select>
 
-          <Button className="bg-orange-500 hover:bg-orange-600 text-white">
+          <button className="p-1 px-3 rounded-sm bg-[rgb(220_53_88)] hover:bg-orange-600 text-white">
             Sign In
-          </Button>
+          </button>
 
-          <Button variant="ghost" size="icon" className="md:hidden">
+          <button className="md:hidden">
             <Menu className="h-6 w-6" />
             <span className="sr-only">Open menu</span>
-          </Button>
+          </button>
         </div>
       </nav>
 
-      <div className="bg-gray-100 px-4 py-2 relative">
+      <div className="bg-gray-100 py-2 relative px-32 flex justify-between">
         <div
           ref={scrollContainerRef}
           className="flex space-x-4 overflow-x-auto scrollbar-hide"
         >
           <p
             className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
-              selectedType === "movie" ? "text-orange-500 font-semibold" : ""
+              selectedType === "movie"
+                ? "text-[rgb(220_53_88)] font-semibold"
+                : ""
             }`}
             onClick={() => handleTypeClick("movie")}
           >
@@ -88,26 +88,21 @@ export default function Navbar() {
           </p>
           <p
             className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
-              selectedType === "show" ? "text-orange-500 font-semibold" : ""
-            }`}
-            onClick={() => handleTypeClick("show")}
-          >
-            Shows
-          </p>
-          <p
-            className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
-              selectedType === "tv" ? "text-orange-500 font-semibold" : ""
+              selectedType === "tv" ? "text-[rgb(220_53_88)] font-semibold" : ""
             }`}
             onClick={() => handleTypeClick("tv")}
           >
-            TV
+            Shows
           </p>
           <p className="text-sm font-medium whitespace-nowrap">Sports</p>
           <p className="text-sm font-medium whitespace-nowrap">News</p>
           <p className="text-sm font-medium whitespace-nowrap">Premium</p>
-          <p className="text-sm font-medium whitespace-nowrap">Music</p>
-          <p className="text-sm font-medium whitespace-nowrap">Kids</p>
-          <p className="text-sm font-medium whitespace-nowrap">Documentaries</p>
+        </div>
+        <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
+          <p className="text-sm font-medium whitespace-nowrap">ListYourShow</p>
+          <p className="text-sm font-medium whitespace-nowrap">Corporates</p>
+          <p className="text-sm font-medium whitespace-nowrap">Offers</p>
+          <p className="text-sm font-medium whitespace-nowrap">Gift Cards</p>
         </div>
       </div>
     </header>

@@ -1,54 +1,49 @@
 "use client";
 
-import * as React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import useEmblaCarousel from "embla-carousel-react";
 
-export function BannerSlider() {
-  const banners = [
-    "/placeholder.svg?height=307&width=400",
-    "/placeholder.svg?height=307&width=400",
-    "/placeholder.svg?height=307&width=400",
-    "/placeholder.svg?height=307&width=400",
-    "/placeholder.svg?height=307&width=400",
-  ];
+interface SliderProps {
+  images: string[];
+}
 
-  const [emblaRef] = useEmblaCarousel({
-    align: "start",
-    loop: true,
-    skipSnaps: false,
-    inViewThreshold: 0.7,
-  });
+export function BannerSlider({ images }: SliderProps) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval>>();
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const nextSlide = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  useEffect(() => {
+    intervalRef.current = setInterval(nextSlide, 3000);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [images.length, nextSlide]);
 
   return (
-    <Carousel ref={emblaRef} className="w-full max-w-5xl mx-auto">
-      <CarouselContent className="-ml-2 md:-ml-4">
-        {banners.map((banner, index) => (
-          <CarouselItem
-            key={index}
-            className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3"
-          >
-            <div className="relative h-[307px] w-full overflow-hidden rounded-lg">
-              <Image
-                src={banner}
-                alt={`Banner ${index + 1}`}
-                fill
-                style={{ objectFit: "cover" }}
-                priority={index === 0}
-              />
-            </div>
-          </CarouselItem>
+    <div className="relative overflow-hidden w-full mx-auto">
+      <div
+        className="flex transition-transform duration-500"
+        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+      >
+        {images.map((image, index) => (
+          <div key={index} className="flex-shrink-0 w-full">
+            <Image
+              src={image}
+              alt={`Slide ${index + 1}`}
+              layout="responsive"
+              width={1920}
+              height={1080}
+              className="object-cover"
+            />
+          </div>
         ))}
-      </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
-    </Carousel>
+      </div>
+    </div>
   );
 }

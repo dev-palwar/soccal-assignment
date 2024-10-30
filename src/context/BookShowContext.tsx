@@ -5,7 +5,7 @@ const BookShowContext = createContext<
   | {
       searchTerm: string;
       setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-      searchType: string;
+      contentType: string;
       setSearchType: React.Dispatch<React.SetStateAction<string>>;
     }
   | undefined
@@ -13,11 +13,11 @@ const BookShowContext = createContext<
 
 export const Provider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [searchType, setSearchType] = useState<string>("movie");
+  const [contentType, setSearchType] = useState<string>("movie");
 
   return (
     <BookShowContext.Provider
-      value={{ searchTerm, setSearchTerm, searchType, setSearchType }}
+      value={{ searchTerm, setSearchTerm, contentType, setSearchType }}
     >
       {children}
     </BookShowContext.Provider>
