@@ -1,4 +1,3 @@
-// useGenres.ts
 import { useApi } from "@/hooks/useApi";
 import { useEffect, useState } from "react";
 

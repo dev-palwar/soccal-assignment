@@ -1,44 +1,66 @@
 "use client";
 
-import { Search, Menu } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { useRef, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import bookMyShow from "../assets/bookmyshow.png";
+import searchIcon from "../assets/icons8-search-50.png";
 import { useSearchTerm } from "@/context/BookShowContext";
+import { ContentType } from "@/types";
 
 export default function Navbar() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { searchTerm, setSearchTerm, setSearchType } = useSearchTerm();
-  const [selectedType, setSelectedType] = useState<string>("movie");
+  const { searchTerm, setSearchTerm, setContentType } = useSearchTerm();
+  const [selectedType, setSelectedType] = useState<ContentType>(
+    ContentType.MOVIE
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleTypeClick = (type: string) => {
+  const handleTypeClick = (type: ContentType) => {
     setSelectedType(type);
-    setSearchType(type);
+    setContentType(type);
   };
+
+  // Menu items data
+  const leftMenuItems = [
+    { label: "Movies", type: ContentType.MOVIE },
+    { label: "Shows", type: ContentType.SHOW },
+    { label: "Sports" },
+    { label: "News" },
+    { label: "Premium" },
+  ];
+
+  const rightMenuItems = [
+    { label: "ListYourShow" },
+    { label: "Corporates" },
+    { label: "Offers" },
+    { label: "Gift Cards" },
+  ];
+
+  const locations = [
+    { value: "delhi", label: "Delhi" },
+    { value: "mumbai", label: "Mumbai" },
+    { value: "bangalore", label: "Bangalore" },
+    { value: "hyderabad", label: "Hyderabad" },
+    { value: "chennai", label: "Chennai" },
+  ];
 
   return (
     <header className="bg-white shadow-md">
-      <nav className="flex items-center justify-between px-32 py-2">
-        <div className="flex items-center">
-          <Image src={bookMyShow} alt="Book my show" height={100} width={100} />
-        </div>
+      <nav className="flex items-center justify-between mt-1 lg:px-32 lg:py-2">
+        <div className="flex items-center w-full lg:w-auto">
+          <Image src={bookMyShow} alt="BookMyShow" height={100} width={100} />
 
-        <div className="flex-1 max-w-md mx-4">
-          <div className="relative">
-            <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          {/* Search box */}
+          <div className="relative border-[1px] w-[100%]">
+            <Image
+              src={searchIcon}
+              alt=""
+              className="pb-1 absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+            />
             <input
-              className="pl-8"
+              className="pl-8 pb-1 focus:outline-none w-[100%]"
               placeholder="Search..."
               value={searchTerm}
               onChange={handleSearchChange}
@@ -47,62 +69,50 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center space-x-4">
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Select a city" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="mumbai">Mumbai</SelectItem>
-              <SelectItem value="delhi">Delhi</SelectItem>
-              <SelectItem value="bangalore">Bangalore</SelectItem>
-              <SelectItem value="hyderabad">Hyderabad</SelectItem>
-              <SelectItem value="chennai">Chennai</SelectItem>
-            </SelectContent>
-          </Select>
+          <select className="hidden lg:block bg-white">
+            {locations.map((location) => (
+              <option key={location.value} value={location.value}>
+                {location.label}
+              </option>
+            ))}
+          </select>
 
-          <button className="p-1 px-3 rounded-sm bg-[rgb(220_53_88)] hover:bg-orange-600 text-white">
+          <button className="p-1 px-3 rounded-sm bg-[rgb(220_53_88)] hover:bg-orange-600 text-white hidden lg:block">
             Sign In
           </button>
 
           <button className="md:hidden">
-            <Menu className="h-6 w-6" />
             <span className="sr-only">Open menu</span>
           </button>
         </div>
       </nav>
 
-      <div className="bg-gray-100 py-2 relative px-32 flex justify-between">
-        <div
-          ref={scrollContainerRef}
-          className="flex space-x-4 overflow-x-auto scrollbar-hide"
-        >
-          <p
-            className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
-              selectedType === "movie"
-                ? "text-[rgb(220_53_88)] font-semibold"
-                : ""
-            }`}
-            onClick={() => handleTypeClick("movie")}
-          >
-            Movies
-          </p>
-          <p
-            className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
-              selectedType === "tv" ? "text-[rgb(220_53_88)] font-semibold" : ""
-            }`}
-            onClick={() => handleTypeClick("tv")}
-          >
-            Shows
-          </p>
-          <p className="text-sm font-medium whitespace-nowrap">Sports</p>
-          <p className="text-sm font-medium whitespace-nowrap">News</p>
-          <p className="text-sm font-medium whitespace-nowrap">Premium</p>
+      {/* Category bar */}
+      <div className="hidden lg:flex bg-gray-100 py-2 relative px-32 justify-between">
+        <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
+          {leftMenuItems.map((item, index) => (
+            <p
+              key={index}
+              className={`text-sm font-medium whitespace-nowrap cursor-pointer ${
+                selectedType === item.type
+                  ? "text-[rgb(220_53_88)] font-semibold"
+                  : ""
+              }`}
+              onClick={() => item.type && handleTypeClick(item.type)}
+            >
+              {item.label}
+            </p>
+          ))}
         </div>
         <div className="flex space-x-4 overflow-x-auto scrollbar-hide">
-          <p className="text-sm font-medium whitespace-nowrap">ListYourShow</p>
-          <p className="text-sm font-medium whitespace-nowrap">Corporates</p>
-          <p className="text-sm font-medium whitespace-nowrap">Offers</p>
-          <p className="text-sm font-medium whitespace-nowrap">Gift Cards</p>
+          {rightMenuItems.map((item, index) => (
+            <p
+              key={index}
+              className="text-sm font-medium whitespace-nowrap cursor-pointer"
+            >
+              {item.label}
+            </p>
+          ))}
         </div>
       </div>
     </header>

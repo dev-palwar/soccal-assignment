@@ -3,9 +3,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ContentCard } from "./content-card";
 import { BaseContent } from "@/types";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import nextIcon from "../assets/right-arrow.png";
+import prevIcon from "../assets/left-arrow.png";
+import Image from "next/image";
 
-interface Params {
+interface Props {
   loading: boolean;
   error: string | null;
   content: BaseContent[];
@@ -19,7 +21,7 @@ export function CardCarousel({
   content,
   searchTerm,
   contentType,
-}: Params) {
+}: Props) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement | null>(null);
   const totalItems = content.length;
@@ -83,15 +85,15 @@ export function CardCarousel({
           </div>
           <button
             onClick={goToPrevious}
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow"
+            className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white p-3 rounded-full shadow"
           >
-            <ArrowLeft />
+            <Image src={prevIcon} height={15} width={15} alt=">" />
           </button>
           <button
             onClick={goToNext}
-            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white p-2 rounded-full shadow"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2  p-3 rounded-full shadow bg-white"
           >
-            <ArrowRight />
+            <Image src={nextIcon} height={15} width={15} alt=">" />
           </button>
         </>
       )}

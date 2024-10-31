@@ -26,7 +26,7 @@ export function BannerSlider({ images }: SliderProps) {
   }, [images.length, nextSlide]);
 
   return (
-    <div className="relative overflow-hidden w-full mx-auto">
+    <div className="relative overflow-hidden w-full ">
       <div
         className="flex transition-transform duration-500"
         style={{ transform: `translateX(-${currentIndex * 100}%)` }}

@@ -5,3 +5,8 @@ export interface BaseContent {
   title: string;
   name?: string;
 }
+
+export enum ContentType {
+  MOVIE = "movie",
+  SHOW = "tv",
+}

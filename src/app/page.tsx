@@ -2,6 +2,7 @@
 
 import { BannerSlider } from "@/components/banner-slider";
 import { CardCarousel } from "@/components/card-carousel";
+import MobileNavbar from "@/components/mobile-navbar";
 import { useSearchTerm } from "@/context/BookShowContext";
 import { useApi } from "@/hooks/useApi";
 import { BaseContent } from "@/types";
@@ -32,7 +33,7 @@ export default function Home() {
   return (
     <div>
       <BannerSlider images={images} />
-      <div>
+      <div className="p-2">
         <CardCarousel
           loading={loading}
           error={error}
@@ -40,6 +41,9 @@ export default function Home() {
           searchTerm={searchTerm}
           contentType={contentType}
         />
+      </div>
+      <div className="block md:hidden mt-10">
+        <MobileNavbar />
       </div>
     </div>
   );

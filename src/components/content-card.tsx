@@ -1,4 +1,4 @@
-import useGenres from "@/hooks/generes";
+import useGenres from "@/hooks/useGenres";
 import { BaseContent } from "@/types";
 import Image from "next/image";
 
